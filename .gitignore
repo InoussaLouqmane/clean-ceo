@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Archive source des assets, déjà réorganisée dans public/assets/ — pas besoin
+# de la dupliquer dans le repo.
+/GameDesignWorkShop-*.zip
