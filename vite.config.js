@@ -32,7 +32,12 @@ export default defineConfig({
     // Le fichier du jeu (Phaser ~1,5 Mo) est chargé à part, en arrière-plan,
     // après l'affichage du menu (voir src/menu/gameLoader.js) : sa taille est
     // assumée, inutile d'avertir à chaque build.
-    chunkSizeWarningLimit: 1600,
+    chunkSizeWarningLimit: 1700,
+  },
+  // Même raison que pour le watcher : sans ça, le pré-scan des dépendances
+  // parcourt tous les .html du dossier utilisateur (Downloads, AppData...).
+  optimizeDeps: {
+    entries: ['index.html'],
   },
   server: {
     open: true,

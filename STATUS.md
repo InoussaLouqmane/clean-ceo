@@ -1735,3 +1735,25 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
   Le code gère glissé + pincement. Piste si ça bloque dans le mode « appareil
   mobile » de Chrome : Phaser détecte le tactile au démarrage → recharger la
   page APRÈS avoir activé ce mode.
+
+---
+
+## 2026-09-26 : README à jour + failles de dépendances corrigées
+
+- README réécrit : ce qui fonctionne (menu, jeu, outils d'équipe) et ce qui
+  reste à venir. Le mécontentement y figure comme « branche
+  `mecontentement`, pas encore sur `main` » (retiré de `main` par un revert
+  volontaire, pas encore testé par l'utilisateur).
+- Alertes Dependabot (1 grave, 3 moyennes) : toutes dans Vite 5 / esbuild,
+  serveur de dev uniquement (le site déployé n'était pas exposé). Vite passé
+  en **6.4.3** (même cible que la PR Dependabot, qui elle partait du tout
+  premier commit et supprimait tout le jeu : à fermer sans fusionner).
+  `npm audit` : 0 faille.
+- `vite.config.js` : `optimizeDeps.entries: ['index.html']`. Sans ça, le
+  pré-scan des dépendances parcourait tous les .html du dossier utilisateur
+  (Downloads, AppData...), ce qui ralentissait fortement le premier démarrage
+  du serveur de dev. Limite d'avertissement de taille passée à 1 700 Ko (le
+  fichier du jeu fait 1 617 Ko).
+- Vérifié en headless (build de prod et serveur de dev) : menu, Nouvelle
+  partie, canvas Phaser, saisie du prénom. Aucune erreur ni 404. Niveau pas
+  rejoué en entier.
