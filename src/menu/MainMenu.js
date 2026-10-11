@@ -68,7 +68,7 @@ export class MainMenu {
       </header>
 
       <main class="menu-center">
-        <img class="menu-logo" src="assets/menu/logo_clean_ceo.png" alt="CLEAN CEO" width="283" height="283" />
+        <img class="menu-logo" src="assets/menu/logo_clean_ceo.png" alt="CLEAN CEO" width="511" height="451" />
         <div class="menu-buttons" role="menu">
           ${this._menuButton('new', 'play', 'Nouvelle partie', { primary: true })}
           ${this._menuButton('resume', 'folder', 'Reprendre partie', {

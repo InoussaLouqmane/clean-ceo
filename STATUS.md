@@ -1757,3 +1757,23 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
 - Vérifié en headless (build de prod et serveur de dev) : menu, Nouvelle
   partie, canvas Phaser, saisie du prénom. Aucune erreur ni 404. Niveau pas
   rejoué en entier.
+
+---
+
+## 2026-10-10 : nouveau logo du menu
+
+- Étude et pistes de logo faites hors du projet (PDF dans les Téléchargements de
+  l'utilisateur, rien dans le dépôt). Pistes refusées ; l'utilisateur a choisi
+  sa propre proposition `last_prop44.jpeg` (style autocollant : lettres crème et
+  orange, contour vert foncé, bordure blanche, couronne), sans effet ajouté.
+- `public/assets/menu/logo_clean_ceo.png` remplacé par cette proposition
+  détourée (fond jaune retiré, bords recalculés ; 511×451, PNG transparent).
+  Même nom de fichier : le favicon et le preload d'`index.html` suivent.
+- `menu.css` : ombre portée du logo supprimée (jugée sale sur la carte, la
+  bordure blanche suffit à le détacher) ; hauteur `clamp(140px, 33vh, 380px)`
+  car l'image est détourée au plus près. `MainMenu.js` : width/height à jour.
+- Vérifié sur le vrai menu : 1440×900, téléphone 390×844 (iframe, Chrome
+  headless ne descend pas sous ~500 px de large) et 844×390.
+- À prévoir : source en 800 px JPEG, logo un peu doux sur écran HD. Récupérer
+  un PNG transparent ≥ 1 200 px ou un SVG. Le favicon (logo large) reste peu
+  lisible à 16 px : une icône dédiée serait mieux.

@@ -162,11 +162,10 @@
 }
 
 .menu-logo {
-  height: clamp(150px, 37vh, 420px);
+  /* logo détouré au plus près (autocollant à bordure blanche) : pas d'ombre */
+  height: clamp(140px, 33vh, 380px);
   width: auto;
   margin-bottom: clamp(0px, 0.6vh, 8px);
-  /* ombre portée nette, décalée (pas de flou) */
-  filter: drop-shadow(0 5px 0 rgba(27, 23, 18, 0.55));
   animation: logo-in var(--animation-important) var(--ease-out) both;
 }
 
