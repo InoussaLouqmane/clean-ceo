@@ -21,6 +21,7 @@ import { sfx } from './sfx.js';
 import { showLevelComplete } from './ui/LevelComplete.js';
 import { CONTRACTS, KARIM_HOUSE, SCRIPT } from './level1/script.js';
 import { runLevel1 } from './level1/Level1Tutorial.js';
+import { startTelemetry } from './telemetry.js';
 import './ui/game-ui.css';
 
 const DEFAULT_PLAYER_NAME = 'Ange'; // si le joueur ne saisit pas de prénom (décision du 2026-09-24)
@@ -46,6 +47,7 @@ export class GameController {
     this.contractCells = contractEntries;
     this.state = new GameState(saved ?? {}, contractEntries);
     this.state.setCatalog(this.cityBuildings); // contrats signés / demandes en attente
+    startTelemetry(this.state); // stats publiques de la page /stats
 
     this.root = document.createElement('div');
     this.root.className = 'game-ui';

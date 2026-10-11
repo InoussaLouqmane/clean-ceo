@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CLEAN CEO · Stats</title>
+    <meta name="description" content="Les chiffres publics de CLEAN CEO : joueurs, joueur le plus avancé, plus longues sessions." />
+    <link rel="icon" type="image/png" href="/assets/menu/logo_clean_ceo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400..800&display=swap" />
+  </head>
+  <body>
+    <div class="stats-bg" aria-hidden="true"></div>
+    <main class="stats">
+      <a class="stats-logo" href="/"><img src="/assets/menu/logo_clean_ceo.png" alt="CLEAN CEO" width="511" height="451" /></a>
+      <h1 class="stats-title">Les stats</h1>
+
+      <section class="stats-tiles">
+        <article class="tile">
+          <h2>Joueurs</h2>
+          <p class="big" data-field="players">…</p>
+          <p class="sub" data-field="today"></p>
+        </article>
+        <article class="tile tile--gold">
+          <h2>Le plus avancé</h2>
+          <p class="big" data-field="best-name">…</p>
+          <p class="sub" data-field="best-detail"></p>
+        </article>
+        <article class="tile">
+          <h2>Plus longue session</h2>
+          <p class="big" data-field="long-time">…</p>
+          <p class="sub" data-field="long-name"></p>
+        </article>
+      </section>
+
+      <section class="stats-lists">
+        <article class="board">
+          <h2>Classement · XP</h2>
+          <ol data-list="xp"></ol>
+        </article>
+        <article class="board">
+          <h2>Classement · temps de jeu</h2>
+          <ol data-list="longest"></ol>
+        </article>
+      </section>
+
+      <p class="stats-foot"><span data-field="updated"></span></p>
+      <a class="stats-play" href="/">Jouer à CLEAN CEO</a>
+    </main>
+    <script type="module" src="/src/stats/stats.js"></script>
+  </body>
+</html>

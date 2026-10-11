@@ -1786,3 +1786,22 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
 - Plan gratuit (Hobby) : visites seulement, 50 000 événements par mois, un mois
   d'historique. Les événements de jeu (partie lancée, tutoriel fini, niveau
   atteint) demandent le plan Pro, ou un autre outil : à décider.
+
+### Page publique /stats (2026-10-11)
+
+- Base Upstash « aihou-stats » DÉBRANCHÉE d'aihou-site (demande de
+  l'utilisateur) et branchée sur clean-ceo. Le compteur de visites d'aihou
+  s'arrête à son prochain déploiement ; ses anciennes clés restent dans la base.
+  Toutes les clés du jeu commencent par `cc:`.
+- `src/game/telemetry.js` (appelé par GameController) : un signal par minute à
+  `/api/ping` tant que l'onglet est visible (identifiant anonyme en
+  localStorage `clean-ceo-player-id`, prénom saisi, XP). Rien en dev.
+- `api/ping.js` : un seul appel Redis (script Lua) par signal. Durée de session
+  calculée par le serveur (écarts ≤ 100 s entre signaux), XP plafonnée à +150
+  par signal, robots et identifiants invalides ignorés.
+- `api/stats.js` : joueurs (total, aujourd'hui), top 5 XP (niveau recalculé
+  avec `levelInfo`), top 5 des plus longues sessions ; cache CDN 60 s.
+- `stats.html` + `src/stats/` : page publique, 2e entrée Vite ; `vercel.json`
+  `cleanUrls` pour servir `/stats`.
+- Testé contre la vraie base avec un préfixe de test (supprimé ensuite) et
+  rendu de la page vérifié (desktop et 390 px).

@@ -13,6 +13,7 @@ const WATCHED_TOP_LEVEL = new Set([
   'src',
   'public',
   'index.html',
+  'stats.html',
   'package.json',
   'package-lock.json',
   'vite.config.js',
@@ -33,11 +34,15 @@ export default defineConfig({
     // après l'affichage du menu (voir src/menu/gameLoader.js) : sa taille est
     // assumée, inutile d'avertir à chaque build.
     chunkSizeWarningLimit: 1700,
+    // Deux pages : le jeu et la page publique /stats.
+    rollupOptions: {
+      input: { main: 'index.html', stats: 'stats.html' },
+    },
   },
   // Même raison que pour le watcher : sans ça, le pré-scan des dépendances
   // parcourt tous les .html du dossier utilisateur (Downloads, AppData...).
   optimizeDeps: {
-    entries: ['index.html'],
+    entries: ['index.html', 'stats.html'],
   },
   server: {
     open: true,
