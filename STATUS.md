@@ -1777,3 +1777,12 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
 - À prévoir : source en 800 px JPEG, logo un peu doux sur écran HD. Récupérer
   un PNG transparent ≥ 1 200 px ou un SVG. Le favicon (logo large) reste peu
   lisible à 16 px : une icône dédiée serait mieux.
+
+### Stats joueurs (2026-10-11)
+
+- `@vercel/analytics` 2.0.1 ajouté, `inject()` dans `src/main.js` (petit paquet,
+  sans Phaser). Reste à cliquer « Enable » dans Vercel > projet > Analytics, puis
+  redéployer : les routes `/_vercel/insights/*` n'existent qu'après ça.
+- Plan gratuit (Hobby) : visites seulement, 50 000 événements par mois, un mois
+  d'historique. Les événements de jeu (partie lancée, tutoriel fini, niveau
+  atteint) demandent le plan Pro, ou un autre outil : à décider.
