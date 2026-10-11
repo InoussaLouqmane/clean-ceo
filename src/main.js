@@ -5,10 +5,14 @@ import { SoundManager } from './menu/SoundManager.js';
 import { preloadGame, preloadGameWhenMenuIsReady, onPreloadProgress } from './menu/gameLoader.js';
 import { hasSave } from './game/save.js';
 import { needsRotateHint, showRotateHint } from './menu/rotateHint.js';
+import { inject as injectAnalytics } from '@vercel/analytics';
 
 // Point d'entrée : UNIQUEMENT le menu. Aucun import de Phaser ici — le jeu
 // (src/game.js) est chargé à la demande, voir menu/gameLoader.js.
 // (game/save.js est un module sans Phaser : autorisé ici.)
+
+// Vercel Web Analytics : visites (pas de cookie). N'envoie rien en dev.
+injectAnalytics();
 
 const sound = new SoundManager();
 let starting = false;
