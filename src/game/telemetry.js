@@ -41,7 +41,7 @@ export function startTelemetry(gameState) {
   const pid = playerId();
   const sid = newId();
   const send = (final = false) => {
-    if (stopped || !state || (!final && document.visibilityState !== 'visible')) return;
+    if (stopped || !state || state.testSave || (!final && document.visibilityState !== 'visible')) return;
     const body = JSON.stringify({ pid, sid, name: state.playerName, xp: state.xp, final });
     fetch('/api/ping', { method: 'POST', body, keepalive: true }).catch(() => {});
   };

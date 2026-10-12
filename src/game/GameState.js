@@ -21,6 +21,7 @@ export class GameState {
   constructor(data = {}, contracts = []) {
     this.contracts = new Map(contracts.map((c) => [c.id, c]));
     this.playerName = data.playerName ?? '';
+    this.testSave = data.testSave ?? false; // partie de test (?partie-test) : hors stats
     this.money = data.money ?? ECONOMY.start.money;
     this.xp = data.xp ?? ECONOMY.start.xp;
     this.units =
@@ -500,6 +501,7 @@ export class GameState {
   save() {
     writeSave({
       version: 3,
+      ...(this.testSave && { testSave: true }),
       playerName: this.playerName,
       money: this.money,
       xp: this.xp,

@@ -3,7 +3,7 @@ import './menu/menu.css';
 import { MainMenu } from './menu/MainMenu.js';
 import { SoundManager } from './menu/SoundManager.js';
 import { preloadGame, preloadGameWhenMenuIsReady, onPreloadProgress } from './menu/gameLoader.js';
-import { hasSave } from './game/save.js';
+import { hasSave, writeSave } from './game/save.js';
 import { needsRotateHint, showRotateHint } from './menu/rotateHint.js';
 import { inject as injectAnalytics } from '@vercel/analytics';
 
@@ -44,6 +44,26 @@ async function launch(mode) {
   loading.setTitle('Préparation de la carte…');
 
   game.startGame({ mode, onReady: () => menu.destroy() });
+}
+
+// Lien de test (tester la fin de la démo sans rejouer) : ?partie-test écrit une
+// partie au niveau 3 terminé, ?partie-test=presque la même à 3 XP de la fin.
+// Partie marquée testSave : jamais comptée dans les stats (telemetry.js).
+const testParam = new URLSearchParams(window.location.search).get('partie-test');
+if (testParam !== null) {
+  writeSave({
+    version: 3,
+    testSave: true,
+    playerName: 'Testeur',
+    money: 15000,
+    xp: testParam === 'presque' ? 597 : 600,
+    tutorial: { checkpoint: null, done: true },
+    levelComplete: true,
+    questsIntroDone: true,
+    contractsIntroDone: true,
+    offersUpToLevel: 3,
+  });
+  window.history.replaceState(null, '', window.location.pathname);
 }
 
 const menu = new MainMenu({
