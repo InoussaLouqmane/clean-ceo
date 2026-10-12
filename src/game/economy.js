@@ -58,6 +58,14 @@ export const ECONOMY = {
     xpPerLevel: 100,
   },
 
+  // Version démo (décision du 2026-10-12) : le jeu s'arrête à la FIN de ce
+  // niveau (quand le joueur atteindrait le suivant). Fenêtre « Démo terminée »
+  // + retour facultatif du joueur, partie bloquée. Pour rouvrir le jeu :
+  // augmenter lastLevel (ou mettre null pour retirer la limite).
+  demo: {
+    lastLevel: 3,
+  },
+
   // Améliorations permanentes (onglet « Améliorations » de la boutique) :
   // achat unique. `effect` est lu par modifiers() ci-dessous — ne jamais
   // appliquer un effet ailleurs. `comingSoon` : affichée mais pas achetable

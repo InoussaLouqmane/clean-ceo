@@ -21,7 +21,8 @@ import { sfx } from './sfx.js';
 import { showLevelComplete } from './ui/LevelComplete.js';
 import { CONTRACTS, KARIM_HOUSE, SCRIPT } from './level1/script.js';
 import { runLevel1 } from './level1/Level1Tutorial.js';
-import { startTelemetry } from './telemetry.js';
+import { startTelemetry, stopTelemetry } from './telemetry.js';
+import { showDemoEnd } from './ui/DemoEnd.js';
 import './ui/game-ui.css';
 
 const DEFAULT_PLAYER_NAME = 'Ange'; // si le joueur ne saisit pas de prénom (décision du 2026-09-24)
@@ -87,6 +88,7 @@ export class GameController {
         this.quests.close();
       }),
       bus.on('level_up', ({ level, fromLevelEnd }) => {
+        if (this.state.demoOver) return this._endDemo();
         if (fromLevelEnd) return; // l'écran « Niveau 1 terminé » l'annonce déjà
         sfx.levelUp();
         showToast(this.root, { title: `Niveau ${level} atteint !`, text: unlocksAt(level), kind: 'level' });
@@ -135,6 +137,9 @@ export class GameController {
   }
 
   async _start() {
+    // Démo déjà terminée (reprise d'une partie) : la fenêtre de fin, rien d'autre.
+    if (this.state.demoOver) return this._endDemo();
+
     if (!this.state.playerName) {
       this.buildings.setGreyed(true);
       const name = await askPlayerName(this.root);
@@ -166,6 +171,18 @@ export class GameController {
     this.guide.clear();
     this.buildings.setGreyed(false);
     this.hud.setVisible(true);
+  }
+
+  /** Fin de la démo : partie bloquée sous la fenêtre « Démo terminée ». */
+  _endDemo() {
+    if (this._demoEnded) return;
+    this._demoEnded = true;
+    stopTelemetry(); // dernier signal (XP finale), puis plus de temps de jeu compté
+    this.buildingMenu.close();
+    this.shop.close();
+    this.quests.close();
+    this.guide.clear();
+    showDemoEnd(this.root, this.state);
   }
 
   async _introQuests() {

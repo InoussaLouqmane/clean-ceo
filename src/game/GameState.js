@@ -59,6 +59,12 @@ export class GameState {
 
   // ------------------------------------------------------------- lecture
 
+  /** Démo terminée : le joueur a fini le dernier niveau ouvert (ECONOMY.demo). */
+  get demoOver() {
+    const last = ECONOMY.demo.lastLevel;
+    return last != null && this.level > last;
+  }
+
   /** Niveau : 1 tant que le tutoriel n'est pas fini, puis selon l'XP totale. */
   get level() {
     return this.tutorial.done ? levelInfo(this.xp).level : 1;

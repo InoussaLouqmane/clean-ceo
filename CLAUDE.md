@@ -231,6 +231,12 @@ pour le détail exact et la prochaine étape.
   équipement / Contrats / Améliorations / Premium simulé en XOF). Améliorations :
   `ECONOMY.upgrades`, effets UNIQUEMENT via `modifiers()` (economy.js).
 - **Niveaux** : 1 pendant le tutoriel, puis `levelInfo(xp)` (100 / 300 / 600…).
+- **Version démo** (2026-10-12) : `ECONOMY.demo.lastLevel` = 3. En atteignant le
+  niveau suivant, fenêtre « Démo terminée » (`ui/DemoEnd.js`) qui BLOQUE la
+  partie, avec retour facultatif du joueur (`/api/feedback`, liste Redis
+  `cc:feedback`). Rouvrir le jeu = augmenter `lastLevel` (ou `null`).
+- **Stats publiques** : `/stats`, `api/` (Upstash Redis, clés `cc:`), envoi par
+  `src/game/telemetry.js`. Classement dans le menu (bouton « Classement »).
 - **Quêtes** : données dans `src/game/quests.js`, suivi dans GameState
   (`_checkQuests`, `claimQuest`), carnet `ui/QuestPanel.js` ; récompense
   toujours réclamée à la main. Sauvegarde v3 (même clé, champs ajoutés).

@@ -2027,3 +2027,88 @@
     overflow-y: auto;
   }
 }
+
+/* ------------------------------------------------------------ fin de démo */
+
+.game-ui .demo-end {
+  z-index: 8; /* devant tout, y compris la fin de niveau et les dialogues */
+  padding: 14px;
+  background: rgba(27, 23, 18, 0.72);
+}
+.demo-end .level-complete__panel {
+  max-height: calc(100% - 8px);
+  overflow: auto;
+}
+.demo-end__lead {
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+.demo-end__recap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px 6px;
+  margin: 0 0 14px;
+  padding: 6px 10px;
+  font-weight: 700;
+  background: rgba(140, 120, 96, 0.14);
+}
+.demo-end__recap .px-icon {
+  width: 18px;
+  height: 18px;
+}
+.demo-end__form {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+}
+.demo-end__form label {
+  font-weight: 700;
+}
+.demo-end__form label small {
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+.demo-end__form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  padding: 8px 10px;
+  font: 500 15px/1.4 var(--font-ui);
+  color: var(--color-text);
+  background: #fff;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-small);
+}
+.demo-end__status {
+  min-height: 1.2em;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Téléphone en paysage : panneau plus large et plus ramassé */
+@media (orientation: landscape) and (max-height: 500px) {
+  .demo-end .level-complete__panel {
+    width: min(620px, 100%);
+    padding: 12px 18px;
+  }
+  .demo-end h2 {
+    font-size: 20px;
+    margin: 2px 0;
+  }
+  .demo-end__lead {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .demo-end__recap {
+    margin-bottom: 8px;
+    padding: 4px 8px;
+  }
+  .demo-end__form textarea {
+    min-height: 0;
+    height: 56px;
+  }
+}

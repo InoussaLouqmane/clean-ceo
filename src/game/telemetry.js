@@ -7,7 +7,9 @@ const PLAYER_KEY = 'clean-ceo-player-id';
 const EVERY_MS = 60_000;
 
 let started = false;
+let stopped = false;
 let state = null;
+let sendNow = null;
 
 const newId = () => (crypto.randomUUID?.() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`).toLowerCase();
 
@@ -38,12 +40,20 @@ export function startTelemetry(gameState) {
 
   const pid = playerId();
   const sid = newId();
-  const send = () => {
-    if (document.visibilityState !== 'visible' || !state) return;
-    const body = JSON.stringify({ pid, sid, name: state.playerName, xp: state.xp });
+  const send = (final = false) => {
+    if (stopped || !state || (!final && document.visibilityState !== 'visible')) return;
+    const body = JSON.stringify({ pid, sid, name: state.playerName, xp: state.xp, final });
     fetch('/api/ping', { method: 'POST', body, keepalive: true }).catch(() => {});
   };
+  sendNow = send;
 
   setTimeout(send, 5_000);
   setInterval(send, EVERY_MS);
+}
+
+/** Fin de partie (démo terminée) : un dernier signal pour l'XP finale, puis
+ * plus rien (le temps passé sur l'écran de fin ne compte pas comme du jeu). */
+export function stopTelemetry() {
+  sendNow?.(true);
+  stopped = true;
 }

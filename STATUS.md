@@ -1829,3 +1829,19 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
   dernier signal (`cc:seen`) ; les joueurs d'avant ce changement affichent « — ».
 - /stats : tableau « Tous les joueurs » avec recherche par prénom (colonne
   « Dernière partie » masquée sur téléphone).
+
+### Démo limitée au niveau 3 (2026-10-12)
+
+- `ECONOMY.demo.lastLevel = 3` : quand le joueur atteint le niveau 4 (600 XP),
+  `GameController._endDemo()` affiche « Démo terminée » (`ui/DemoEnd.js`) :
+  bilan, champ facultatif « Qu'aimerais-tu voir ou améliorer ? », Envoyer /
+  Menu principal. Pas de « Continuer » : partie bloquée. Une partie déjà
+  au-delà (6 joueurs jusqu'au niveau 7) affiche la fenêtre dès la reprise.
+  Classement conservé tel quel.
+- Télémétrie arrêtée à la fin de la démo, après un dernier signal « final »
+  (`api/ping.js` accepte l'XP même < 40 s après le précédent).
+- `/api/feedback` : liste Redis `cc:feedback` (2 000 derniers), 1 envoi par
+  joueur toutes les 30 s. Lecture : demander à l'agent (script local avec
+  `.env.local`), pas encore de page.
+- Testé : API contre la vraie base (préfixe de test supprimé), fenêtre en
+  390×844 et 844×390, reprise d'une partie à 2 227 XP.
