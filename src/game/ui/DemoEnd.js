@@ -60,9 +60,11 @@ export function showDemoEnd(root, state) {
         body: JSON.stringify({ pid: knownPlayerId(), name: state.playerName, text: message, xp: state.xp }),
       });
       if (!res.ok) throw new Error(String(res.status));
-      text.value = '';
-      text.disabled = true;
+      // Envoyé : on ne garde que le remerciement et le bouton du menu.
+      form.querySelector('label').hidden = true;
+      text.hidden = true;
       sendBtn.hidden = true;
+      status.classList.add('is-sent');
       status.textContent = 'Merci, c’est bien reçu !';
     } catch {
       sendBtn.disabled = false;

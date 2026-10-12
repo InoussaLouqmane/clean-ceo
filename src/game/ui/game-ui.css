@@ -2081,6 +2081,14 @@
   border: 2px solid var(--color-border);
   border-radius: var(--radius-small);
 }
+.demo-end__form [hidden] {
+  display: none;
+}
+.demo-end__status.is-sent {
+  padding: 8px 0 4px;
+  font-size: 17px;
+  text-align: center;
+}
 .demo-end__status {
   min-height: 1.2em;
   margin: 0;
