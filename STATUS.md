@@ -1805,3 +1805,12 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
   `cleanUrls` pour servir `/stats`.
 - Testé contre la vraie base avec un préfixe de test (supprimé ensuite) et
   rendu de la page vérifié (desktop et 390 px).
+
+### Logo re-détouré + favicon couronne (2026-10-12)
+
+- Premier détourage jugé raté (liseré clair, ombre crénelée) : refait par
+  « couleur vers alpha » (dé-mélange du jaune sur une bande de bord) + suppression
+  des points de bruit JPEG. 512×453.
+- Favicon : la couronne du logo, redressée (16°), `public/favicon.png` (64 px)
+  et `public/apple-touch-icon.png` (180 px, fond sarcelle). Liens à jour dans
+  `index.html` et `stats.html`.
