@@ -46,10 +46,11 @@ async function launch(mode) {
   game.startGame({ mode, onReady: () => menu.destroy() });
 }
 
-// Lien de test (tester la fin de la démo sans rejouer) : ?partie-test écrit une
-// partie au niveau 3 terminé, ?partie-test=presque la même à 3 XP de la fin.
-// Partie marquée testSave : jamais comptée dans les stats (telemetry.js).
-const testParam = new URLSearchParams(window.location.search).get('partie-test');
+// Lien de test, EN LOCAL uniquement (npm run dev ; ignoré sur le site en
+// ligne) : ?partie-test écrit une partie au niveau 3 terminé,
+// ?partie-test=presque la même à 3 XP de la fin. Partie marquée testSave :
+// jamais comptée dans les stats (telemetry.js).
+const testParam = import.meta.env.DEV ? new URLSearchParams(window.location.search).get('partie-test') : null;
 if (testParam !== null) {
   writeSave({
     version: 3,

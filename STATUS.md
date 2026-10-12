@@ -1845,7 +1845,8 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
   `.env.local`), pas encore de page.
 - Testé : API contre la vraie base (préfixe de test supprimé), fenêtre en
   390×844 et 844×390, reprise d'une partie à 2 227 XP.
-- Lien de test (2026-10-12) : `/?partie-test` écrit une sauvegarde « niveau 3
+- Lien de test (2026-10-12), EN LOCAL uniquement (`npm run dev`, ignoré en
+  production) : `/?partie-test` écrit une sauvegarde « niveau 3
   terminé » (Reprendre → fenêtre de fin), `/?partie-test=presque` la même à
   597 XP (une collecte déclenche la fin). Sauvegarde `testSave: true` : jamais
   envoyée aux stats. « Nouvelle partie » l'efface.
