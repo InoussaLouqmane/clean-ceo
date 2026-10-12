@@ -21,6 +21,15 @@ function playerId() {
   }
 }
 
+/** Identifiant du joueur s'il a déjà joué sur ce navigateur (sans en créer). */
+export function knownPlayerId() {
+  try {
+    return localStorage.getItem(PLAYER_KEY);
+  } catch {
+    return null;
+  }
+}
+
 /** Branche le suivi sur la partie en cours (appel répété sans effet, sauf l'état suivi). */
 export function startTelemetry(gameState) {
   state = gameState;

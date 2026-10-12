@@ -1814,3 +1814,18 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
 - Favicon : la couronne du logo, redressée (16°), `public/favicon.png` (64 px)
   et `public/apple-touch-icon.png` (180 px, fond sarcelle). Liens à jour dans
   `index.html` et `stats.html`.
+
+### Classement dans le menu + tous les joueurs sur /stats (2026-10-12)
+
+- Menu : « Comment jouer » remplacé par « Classement » (icône couronne) ;
+  « Comment jouer » passe en icône « ? » dans la barre du haut. Fenêtre
+  (modale existante, `modal--leaderboard`) : premier mis en avant, places 2 à 5,
+  ligne « Toi : 12e sur 128 » (via `/api/rank`, identifiant `knownPlayerId()`),
+  lien vers /stats. En paysage téléphone (hauteur ≤ 500 px) : deux colonnes,
+  tout tient sans défilement. Vérifié en 390×844 et 844×390.
+- `/api/rank?pid=` : rang, XP, niveau du joueur.
+- `/api/stats?all=1` : en plus, TOUS les joueurs (2 000 max) avec plus longue
+  session et dernière partie. `api/ping.js` enregistre désormais l'heure du
+  dernier signal (`cc:seen`) ; les joueurs d'avant ce changement affichent « — ».
+- /stats : tableau « Tous les joueurs » avec recherche par prénom (colonne
+  « Dernière partie » masquée sur téléphone).

@@ -169,3 +169,90 @@ html, body {
   .stats-tiles,
   .stats-lists { grid-template-columns: 1fr; }
 }
+
+/* Tableau de tous les joueurs */
+.everyone {
+  width: 100%;
+  margin-top: 16px;
+  background: rgba(27, 23, 18, 0.88);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-small);
+  box-shadow: inset 0 0 0 var(--ring-width) var(--color-border-accent), var(--shadow-medium);
+  padding: 16px 18px 12px;
+  box-sizing: border-box;
+}
+.everyone__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.everyone h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--palette-gold);
+}
+.everyone__search {
+  flex: 0 1 220px;
+  min-width: 0;
+  padding: 7px 10px;
+  font: 500 15px var(--font-ui);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-small);
+}
+.everyone__scroll {
+  max-height: 60vh;
+  overflow: auto;
+}
+.everyone__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.everyone__table th {
+  position: sticky;
+  top: 0;
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--palette-sand);
+  background: #231e17;
+}
+.everyone__table td {
+  padding: 7px 8px;
+  border-top: 1px solid rgba(241, 233, 210, 0.12);
+  white-space: nowrap;
+}
+.everyone__table .rank {
+  font-weight: 800;
+  color: var(--palette-gold);
+}
+.everyone__table .who {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+.everyone__table .empty {
+  text-align: center;
+  color: rgba(241, 233, 210, 0.6);
+}
+
+@media (max-width: 700px) {
+  .everyone { padding: 12px 10px 8px; }
+  .everyone__table { font-size: 14px; }
+  .everyone__table th,
+  .everyone__table td { padding: 6px 5px; }
+  .everyone__table .col-seen { display: none; }
+  .everyone__table .who { max-width: 110px; }
+}

@@ -46,6 +46,21 @@
         </article>
       </section>
 
+      <section class="everyone">
+        <div class="everyone__head">
+          <h2>Tous les joueurs <span data-field="count"></span></h2>
+          <input type="search" class="everyone__search" placeholder="Chercher un joueur" aria-label="Chercher un joueur" data-search />
+        </div>
+        <div class="everyone__scroll">
+          <table class="everyone__table">
+            <thead>
+              <tr><th>#</th><th>Joueur</th><th>Niv.</th><th>XP</th><th>Plus longue session</th><th class="col-seen">Dernière partie</th></tr>
+            </thead>
+            <tbody data-list="everyone"></tbody>
+          </table>
+        </div>
+      </section>
+
       <p class="stats-foot"><span data-field="updated"></span></p>
       <a class="stats-play" href="/">Jouer à CLEAN CEO</a>
     </main>

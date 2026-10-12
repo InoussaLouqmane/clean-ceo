@@ -27,6 +27,7 @@ local xp = math.min(tonumber(ARGV[4]), prev + 150)
 redis.call('ZADD', KEYS[4], 'GT', xp, ARGV[2])
 redis.call('HSET', KEYS[6], ARGV[2], ARGV[3])
 if active > 0 then redis.call('ZADD', KEYS[5], 'GT', active, ARGV[2]) end
+redis.call('HSET', KEYS[7], ARGV[2], now)
 return 1
 `;
 
@@ -43,7 +44,7 @@ export async function POST(request) {
   const name = String(body.name ?? '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 20);
   const xp = Math.max(0, Math.min(1e7, Math.floor(Number(body.xp) || 0)));
 
-  const keys = [`s:${sid}`, 'players', `players:${cotonouDate()}`, 'xp', 'longest', 'names'].map((k) => PREFIX + k);
+  const keys = [`s:${sid}`, 'players', `players:${cotonouDate()}`, 'xp', 'longest', 'names', 'seen'].map((k) => PREFIX + k);
   await command(['EVAL', SCRIPT, keys.length, ...keys, Math.floor(Date.now() / 1000), pid, name, xp])
     .catch((error) => console.error('Signal non compté', error));
   return empty();

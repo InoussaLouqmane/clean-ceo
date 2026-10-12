@@ -1,6 +1,7 @@
 import { icon } from './icons.js';
 import { createAnimatedBackground } from './animatedBackground.js';
 import { startLoadingHints } from './loadingHints.js';
+import { knownPlayerId } from '../game/telemetry.js';
 
 // Main Menu de CLEAN CEO — overlay DOM/CSS (pas Phaser), pour s'afficher
 // immédiatement sans attendre le moteur de jeu ni les assets de la carte
@@ -61,6 +62,8 @@ export class MainMenu {
         <nav class="menu-icons" aria-label="Réglages rapides">
           <button type="button" class="icon-btn" data-action="language"
             aria-label="Langue" aria-disabled="true" data-tooltip="Langue — bientôt disponible">${icon('globe')}</button>
+          <button type="button" class="icon-btn" data-action="howto"
+            aria-label="Comment jouer" data-tooltip="Comment jouer">${icon('help')}</button>
           <button type="button" class="icon-btn" data-action="sound" data-sound-toggle></button>
           <button type="button" class="icon-btn" data-action="settings"
             aria-label="Paramètres" data-tooltip="Paramètres">${icon('gear')}</button>
@@ -75,7 +78,7 @@ export class MainMenu {
             disabled: !this.canResume,
             tooltip: this.canResume ? '' : 'Aucune partie sauvegardée',
           })}
-          ${this._menuButton('howto', 'book', 'Comment jouer')}
+          ${this._menuButton('leaderboard', 'crown', 'Classement')}
           ${this._menuButton('options', 'gear', 'Options')}
         </div>
       </main>
@@ -87,7 +90,7 @@ export class MainMenu {
   }
 
   _menuButton(action, iconName, label, { primary = false, disabled = false, tooltip = '' } = {}) {
-    const index = ['new', 'resume', 'howto', 'options'].indexOf(action);
+    const index = ['new', 'resume', 'leaderboard', 'options'].indexOf(action);
     return `
       <button type="button" role="menuitem" data-action="${action}" style="--i:${index}"
         class="menu-btn${primary ? ' menu-btn--primary' : ''}"
@@ -153,6 +156,9 @@ export class MainMenu {
       case 'howto':
         this._openHowTo(btn);
         break;
+      case 'leaderboard':
+        this._openLeaderboard(btn);
+        break;
       case 'options':
       case 'settings':
         this._openOptions(btn);
@@ -182,15 +188,16 @@ export class MainMenu {
 
   // ---------------------------------------------------------------- modales
 
-  _openModal(title, bodyHtml, returnFocusTo) {
+  _openModal(title, bodyHtml, returnFocusTo, { className = '', footerHtml = '' } = {}) {
     this._closeModal();
     const backdrop = document.createElement('div');
     backdrop.className = 'modal-backdrop';
     backdrop.innerHTML = `
-      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <section class="modal ${className}" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <header class="modal__header"><h2 id="modal-title">${title}</h2></header>
         <div class="modal__body">${bodyHtml}</div>
         <footer class="modal__footer">
+          ${footerHtml}
           <button type="button" class="menu-btn menu-btn--small" data-modal-close>
             <span class="menu-btn__label">Retour</span>
           </button>
@@ -243,6 +250,28 @@ export class MainMenu {
        <p class="modal__start">Tu démarres avec <b>500 FCFA</b>, <b>0 XP</b> et <b>1 ouvrier</b>.</p>`,
       returnFocusTo
     );
+  }
+
+  /** Classement XP : le premier mis en avant, les places 2 à 5, puis « Toi ». */
+  _openLeaderboard(returnFocusTo) {
+    const modal = this._openModal(
+      'Classement',
+      '<p class="lb__state">Chargement du classement…</p>',
+      returnFocusTo,
+      {
+        className: 'modal--leaderboard',
+        footerHtml: '<a class="menu-btn menu-btn--small menu-btn--link" href="/stats"><span class="menu-btn__label">Toutes les stats</span></a>',
+      }
+    );
+    const body = modal.querySelector('.modal__body');
+    const pid = knownPlayerId();
+    const getJson = (url) => fetch(url).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+
+    Promise.all([getJson('/api/stats'), pid ? getJson(`/api/rank?pid=${encodeURIComponent(pid)}`) : null])
+      .then(([stats, me]) => {
+        if (this.openModalEl !== modal) return; // fenêtre fermée entre-temps
+        body.innerHTML = leaderboardHtml(stats, me);
+      });
   }
 
   _openOptions(returnFocusTo) {
@@ -332,4 +361,40 @@ export class MainMenu {
     this.el.classList.add('is-gone');
     setTimeout(() => this.el.remove(), LEAVE_MS);
   }
+}
+
+// ---------------------------------------------------------- classement
+
+const fmt = (n) => Number(n).toLocaleString('fr-FR');
+const esc = (text) => String(text).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+const ordinal = (n) => (n === 1 ? '1er' : `${n}e`);
+
+function leaderboardHtml(stats, me) {
+  if (!stats?.ready) return '<p class="lb__state">Classement indisponible pour le moment.</p>';
+  const [first, ...others] = stats.topXp;
+  if (!first) return '<p class="lb__state">Personne au classement pour l’instant. Sois le premier !</p>';
+
+  const mine = me?.ranked ? me.rank : 0;
+  const rows = others.map((p, i) => `
+    <li class="lb__row${mine === i + 2 ? ' is-me' : ''}">
+      <span class="lb__rank">${i + 2}</span>
+      <span class="lb__name">${esc(p.name)}</span>
+      <span class="lb__score">Niv. ${p.level} · ${fmt(p.xp)} XP</span>
+    </li>`).join('');
+
+  let meLine = '';
+  if (mine === 1) meLine = 'C’est toi le premier !';
+  else if (mine > 1) meLine = `Toi : ${ordinal(mine)} sur ${fmt(me.total)} · Niv. ${me.level} · ${fmt(me.xp)} XP`;
+  else meLine = 'Joue une partie pour entrer au classement.';
+
+  return `
+    <div class="lb">
+      <div class="lb__leader${mine === 1 ? ' is-me' : ''}">
+        <span class="lb__crown">${icon('crown')}</span>
+        <span class="lb__leader-name">${esc(first.name)}</span>
+        <span class="lb__leader-score">Niveau ${first.level} · ${fmt(first.xp)} XP</span>
+      </div>
+      ${rows ? `<ol class="lb__list">${rows}</ol>` : ''}
+      <p class="lb__me">${meLine}</p>
+    </div>`;
 }
