@@ -218,7 +218,8 @@ pour le détail exact et la prochaine étape.
   portent sur des **conditions d'état**, pas des événements.
 - UI en jeu = DOM (`src/game/ui/`, styles `game-ui.css`, tokens partagés).
 - `?edit` = éditeur de carte (équipe) ; sans paramètre = jeu. `?debug` expose
-  `window.__CLEAN_CEO__` pour les tests automatisés.
+  `window.__CLEAN_CEO__` pour les tests automatisés, EN LOCAL uniquement
+  (`npm run dev`) : ignoré en production, comme `?partie-test`.
 - Sauvegarde : localStorage `clean-ceo-save-v2` (changer la clé si le format
   change de façon incompatible).
 - **Unités de collecte** (depuis la refonte du 2026-09-24) : `GameState.units`

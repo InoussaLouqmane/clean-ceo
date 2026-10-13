@@ -118,9 +118,10 @@ export class GameController {
 
     this.hud.setVisible(false);
 
-    // Accès de test (?debug dans l'URL uniquement) : état de la partie et
+    // Accès de test (?debug, EN LOCAL uniquement : ignoré sur le site en ligne,
+    // sinon on pourrait modifier son XP et sauter des niveaux) : état de la partie et
     // position écran des bâtiments — utilisé par les tests automatisés.
-    if (new URLSearchParams(window.location.search).has('debug')) {
+    if (import.meta.env.DEV && new URLSearchParams(window.location.search).has('debug')) {
       window.__CLEAN_CEO__ = {
         state: this.state,
         buildings: this.cityBuildings,

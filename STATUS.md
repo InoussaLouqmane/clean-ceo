@@ -1850,3 +1850,6 @@ et mobile ; sélecteur 1 type / 3 types / 100 ouvriers + HUD ; menu ; `?edit`.
   terminé » (Reprendre → fenêtre de fin), `/?partie-test=presque` la même à
   597 XP (une collecte déclenche la fin). Sauvegarde `testSave: true` : jamais
   envoyée aux stats. « Nouvelle partie » l'efface.
+- `?debug` (2026-10-13) réservé au serveur local (`import.meta.env.DEV`) :
+  en ligne, plus d'accès à `window.__CLEAN_CEO__`, donc plus de moyen simple
+  de modifier son XP depuis la console.
